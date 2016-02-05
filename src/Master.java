@@ -1,14 +1,22 @@
+import java.util.ArrayList;
+
 public class Master {
-	public Master(long count, ArrayList<long> givenIds) {
-		private long slaveCount = count;
-		private Resource res = new Resource();
-		private Slave[] slaves = new Slave[slaveCount];
-		private ArrayList ids = givenIds;
+	private int slaveCount;
+	private Slave[] slaves;
+	private Resource res;
+	private ArrayList<Long> ids;
+	
+	public Master(int count, ArrayList<Long> givenIds) {
+		slaveCount = count;
+		res = new Resource();
+		slaves = new Slave[slaveCount];
+		ids = givenIds;
 	}
-    public void run() {
+    
+	public void run() {
    	  // create slaves:
       for(int i = 0; i < slaveCount; i++) {
-         slaves[i] = new Slave(res, ids[i]);
+         slaves[i] = new Slave(res, ids.get(i));
       }
       // start slaves:
       for(int i = 0; i < slaveCount; i++) {

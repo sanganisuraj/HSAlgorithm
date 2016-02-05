@@ -7,7 +7,7 @@ import java.util.StringTokenizer;
 
 public class ReadingInput {
 
-	private long N;
+	private int N;
 	private ArrayList<Long> processIds;
 	
 	public ReadingInput(String fileToRead) throws FileNotFoundException {
@@ -16,7 +16,7 @@ public class ReadingInput {
 		Scanner sc;
 		File file = new File(fileToRead);
 		sc = new Scanner(file);
-		N = Long.parseLong(sc.nextLine());
+		N = Integer.parseInt(sc.nextLine());
         
         while (sc.hasNextLine()) {
             StringTokenizer ids = new StringTokenizer(sc.nextLine());
@@ -27,7 +27,7 @@ public class ReadingInput {
         sc.close();
 	}
 
-	public long getN() {
+	public int getN() {
 		return N;
 	}
 
