@@ -1,33 +1,19 @@
+
 class Slave extends Thread {
 
 	private Resource sharedResource;
 	private long id;
-	private boolean done = false;
+	private int slaveIndex;
 
-	public void halt() {
-		done = true;
-	}
-
-	public Slave(Resource rcs, long givenId) {
+	public Slave(Resource rcs, long givenId, int slaveIndex) {
 		sharedResource = rcs;
 		id = givenId;
-	}
-
-	protected boolean task() {
-		// access sharedResource here
-		// for example:
-		int status = sharedResource.incStatus();
-		return 20 <= status;
+		this.slaveIndex = slaveIndex;
 	}
 
     public void run() {
-      while(!done) {
-         done = task();
-		 // be cooperative:
-         try {
-			 Thread.sleep(1000);
-		 } // sleep for 1 sec.
-         catch(Exception e) {}
-      }
-   }
+    	if(Master.maxIdsSeenSoFar.contains(id))
+    		sharedResource.sendMessage(this.slaveIndex, Flag.out, Master.round);
+    	
+    }
 }

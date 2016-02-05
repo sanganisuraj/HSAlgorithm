@@ -1,26 +1,34 @@
 import java.util.ArrayList;
 
-public class Master {
-	private int slaveCount;
-	private Slave[] slaves;
+public class Master extends Thread {
+
+	public static int slaveCount;
+	public static Slave[] slaves;
 	private Resource res;
 	private ArrayList<Long> ids;
+	public static int round = 0;
+	public static ArrayList<Long> maxIdsSeenSoFar;
 	
 	public Master(int count, ArrayList<Long> givenIds) {
 		slaveCount = count;
 		res = new Resource();
 		slaves = new Slave[slaveCount];
 		ids = givenIds;
+		maxIdsSeenSoFar.addAll(ids);
 	}
     
 	public void run() {
    	  // create slaves:
       for(int i = 0; i < slaveCount; i++) {
-         slaves[i] = new Slave(res, ids.get(i));
+         slaves[i] = new Slave(res, ids.get(i), i);
       }
+      
+      round++;
+      
       // start slaves:
       for(int i = 0; i < slaveCount; i++) {
          slaves[i].start();
+         
       }
       // wait for slaves to die:
       for(int i = 0; i < slaveCount; i++) {
@@ -32,6 +40,7 @@ public class Master {
             System.out.println(slaves[i].getName() + " has died");
          }
       }
+      
       System.out.println("The master will now die ... ");
    }
 }

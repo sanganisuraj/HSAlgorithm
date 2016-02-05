@@ -1,19 +1,9 @@
 public class Resource {
 
-	private int status = 0;
+	public synchronized void sendMessage(int slaveIndex, Flag out, int round) {
 
-	public synchronized int incStatus() {
-		int local = status;
-		System.out.println("status = " + local);
-		local++;
-		try {
-			Thread.sleep(50);
-		} catch(Exception e) {
+		int phase = 2^round;
 
-		}
-		status = local;
-		System.out.println("now status = " + local);
-		return status;
 	}
 
 }
