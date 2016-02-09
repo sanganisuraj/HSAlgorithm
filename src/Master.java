@@ -7,7 +7,7 @@ public class Master extends Thread {
 	private Resource res;
 	private ArrayList<Long> ids;
 	public static int round = 0;
-	public static ArrayList<Long> maxIdsSeenSoFar;
+	public static ArrayList<Long> maxIdsSeenSoFar = new ArrayList<Long>();
 	
 	public Master(int count, ArrayList<Long> givenIds) {
 		slaveCount = count;
@@ -26,10 +26,11 @@ public class Master extends Thread {
       round++;
       
       // start slaves:
-      for(int i = 0; i < slaveCount; i++) {
-         slaves[i].start();
+//      for(int i = 0; i < slaveCount; i++) {
+//    	  System.out.println("Starting" + slaves[i].getName());
+         slaves[0].start();
          
-      }
+//      }
       // wait for slaves to die:
       for(int i = 0; i < slaveCount; i++) {
          try {
