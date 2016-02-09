@@ -6,7 +6,16 @@ public class Message {
 	private Flag flag;
 	private int hops;
 	private Direction direction;
+	private int maxIdSeenSoFar;
 	
+	public int getMaxIdSeenSoFar() {
+		return maxIdSeenSoFar;
+	}
+
+	public void setMaxIdSeenSoFar(int maxIdSeenSoFar) {
+		this.maxIdSeenSoFar = maxIdSeenSoFar;
+	}
+
 	Message(long messageSender, int hops) {
 		this.messageSender = messageSender;
 		this.hops = hops;

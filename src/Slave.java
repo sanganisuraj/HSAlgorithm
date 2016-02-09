@@ -45,12 +45,18 @@ class Slave extends Thread {
 			e1.printStackTrace();
 		}
     	
-    	//			this.wait();
-					int hops = clockWiseOutMessage.getHops();
-					while(hops>0) {
-						Master.slaves[((int) clockWiseOutMessage.getMessageReceiver() + hops) % Master.slaveCount].start();
-						Master.slaves[(int) counterClockWiseOutMessage.getMessageReceiver() - hops < 0 ? Master.slaveCount - (int) counterClockWiseOutMessage.getMessageReceiver() - hops - 1 : (int) counterClockWiseOutMessage.getMessageReceiver() - hops].start();
-						hops--;
-					}
+//    				this.wait();
+    	int hops = clockWiseOutMessage.getHops();
+		while(hops>0) {
+			Master.slaves[((int) clockWiseOutMessage.getMessageReceiver() + hops) % Master.slaveCount].start();
+			Master.slaves[(int) counterClockWiseOutMessage.getMessageReceiver() - hops < 0 ? Master.slaveCount - (int) counterClockWiseOutMessage.getMessageReceiver() - hops - 1 : (int) counterClockWiseOutMessage.getMessageReceiver() - hops].start();
+			hops--;
+		}
+		try {
+			this.wait();
+		} catch (InterruptedException e) {
+		// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 }
