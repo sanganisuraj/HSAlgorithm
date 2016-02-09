@@ -50,6 +50,22 @@ class Slave extends Thread {
 		while(hops>0) {
 			Master.slaves[((int) clockWiseOutMessage.getMessageReceiver() + hops) % Master.slaveCount].start();
 			Master.slaves[(int) counterClockWiseOutMessage.getMessageReceiver() - hops < 0 ? Master.slaveCount - (int) counterClockWiseOutMessage.getMessageReceiver() - hops - 1 : (int) counterClockWiseOutMessage.getMessageReceiver() - hops].start();
+			try {
+				Message counterClockwiseReadMessage = counterclockwiseQueue.take();
+				Message clockwiseReadMessage = clockwiseQueue.take();
+				if(counterClockwiseReadMessage.getMessageReceiver()>counterClockwiseReadMessage.getMessageSender()) {
+					counterClockwiseReadMessage.setMessageReceiver((counterClockwiseReadMessage.getMessageReceiver() - 1)<0 ? Master.slaveCount-1 : counterClockwiseReadMessage.getMessageReceiver() - 1);
+					counterClockwiseReadMessage.setHops(counterClockwiseReadMessage.getHops()-1);
+				}
+				if(clockwiseReadMessage.getMessageReceiver()>clockwiseReadMessage.getMessageSender()) {
+					clockwiseReadMessage.setMessageReceiver((clockwiseReadMessage.getMessageReceiver() - 1)<0 ? Master.slaveCount-1 : clockwiseReadMessage.getMessageReceiver() - 1);
+					clockwiseReadMessage.setHops(clockwiseReadMessage.getHops()-1);
+				}
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			hops--;
 		}
 		try {
@@ -58,5 +74,8 @@ class Slave extends Thread {
 		// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		//When a message is received
+		
     }
 }

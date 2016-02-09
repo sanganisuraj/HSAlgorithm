@@ -5,16 +5,10 @@ public class Message {
 	private long messageReceiver;
 	private Flag flag;
 	private int hops;
+	public void setHops(int hops) {
+		this.hops = hops;
+	}
 	private Direction direction;
-	private int maxIdSeenSoFar;
-	
-	public int getMaxIdSeenSoFar() {
-		return maxIdSeenSoFar;
-	}
-
-	public void setMaxIdSeenSoFar(int maxIdSeenSoFar) {
-		this.maxIdSeenSoFar = maxIdSeenSoFar;
-	}
 
 	Message(long messageSender, int hops) {
 		this.messageSender = messageSender;
