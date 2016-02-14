@@ -1,47 +1,44 @@
+/*
+@ Authors
+1. Suraj Sangani  (sns140230@utdallas.edu)
+2. Raghul Gandhi  (rxg150230@utdallas.edu)
+3. Abinav Sridhar (axs143632@utdallas.edu)
+*/
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
-public class Master extends Thread {
+public class Master implements Runnable {
 
-	public static int slaveCount;
-	public static Slave[] slaves;
-	private Resource res;
-	private ArrayList<Long> ids;
-	public static int round = 0;
-	public static ArrayList<Long> maxIdsSeenSoFar = new ArrayList<Long>();
-	
-	public Master(int count, ArrayList<Long> givenIds) {
-		slaveCount = count;
-		res = new Resource();
-		slaves = new Slave[slaveCount];
-		ids = givenIds;
-		maxIdsSeenSoFar.addAll(ids);
-	}
-    
-	public void run() {
-   	  // create slaves:
-      for(int i = 0; i < slaveCount; i++) {
-         slaves[i] = new Slave(res, ids.get(i), i);
-      }
-      
-      round++;
-      
-      // start slaves:
-//      for(int i = 0; i < slaveCount; i++) {
-//    	  System.out.println("Starting" + slaves[i].getName());
-         slaves[0].start();
-         
-//      }
-      // wait for slaves to die:
-      for(int i = 0; i < slaveCount; i++) {
-         try {
-            slaves[i].join();
-         } catch(InterruptedException ie) {
-               System.err.println(ie.getMessage());
-         } finally {
-            System.out.println(slaves[i].getName() + " has died");
-         }
-      }
-      
-      System.out.println("The master will now die ... ");
-   }
+    public static int slaveCount;
+    public static ArrayList<Long> ids;
+    public static int round = 0;
+    public static ArrayList<Long> maxIdsSeenSoFar = new ArrayList<Long>();
+    private final BlockingQueue<Message> queue;
+    private final BlockingQueue<Long> processQueue;
+    private final BlockingQueue<Long> leaderQueue;
+
+    public Master(int count, ArrayList<Long> givenIds) {
+        slaveCount = count;
+        ids = givenIds;
+        maxIdsSeenSoFar.addAll(ids);
+        queue = new LinkedBlockingQueue<Message>();
+        processQueue = new LinkedBlockingQueue<Long>();
+        leaderQueue = new LinkedBlockingQueue<Long>();
+    }
+
+    public void run() {
+        try {
+            Iterator<Long> i = ids.iterator();
+            while (i.hasNext()) {
+                processQueue.add(i.next());
+            }
+            Thread sender = new Thread(new Sender(queue, processQueue, leaderQueue));
+            sender.start();
+            sender.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }

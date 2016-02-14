@@ -1,0 +1,11 @@
+Rounds ==>1 Process(es) in contention==> : [19285, 24915, 16024, 20093, 1711, 12919, 24788, 17586, 19045, 18561, 2567, 19]
+
+Rounds ==>2 Process(es) in contention==> : [19285, 24915, 20093, 12919, 24788, 19045, 18561, 2567]
+
+Rounds ==>3 Process(es) in contention==> : [19285, 24915, 24788, 19045, 18561]
+
+Rounds ==>4 Process(es) in contention==> : [19285, 24915, 24788]
+
+Rounds ==>5 Process(es) in contention==> : [24915]
+---------------------------------
+Leader is [24915]

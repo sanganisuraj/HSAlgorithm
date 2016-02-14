@@ -1,3 +1,9 @@
+/*
+@ Authors
+1. Suraj Sangani  (sns140230@utdallas.edu)
+2. Raghul Gandhi  (rxg150230@utdallas.edu)
+3. Abinav Sridhar (axs143632@utdallas.edu)
+*/
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -30,17 +36,7 @@ public class ReadingInput {
 	public int getN() {
 		return N;
 	}
-
-//	public void setN(long n) {
-//		N = n;
-//	}
-
 	public ArrayList<Long> getProcessIds() {
 		return processIds;
 	}
-
-//	public void setProcessIds(ArrayList<Long> processIds) {
-//		this.processIds = processIds;
-//	}
-	
 }

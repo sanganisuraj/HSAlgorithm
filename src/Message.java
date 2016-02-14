@@ -1,4 +1,9 @@
-
+/*
+@ Authors
+1. Suraj Sangani  (sns140230@utdallas.edu)
+2. Raghul Gandhi  (rxg150230@utdallas.edu)
+3. Abinav Sridhar (axs143632@utdallas.edu)
+*/
 public class Message {
 
 	private long messageSender;
@@ -10,6 +15,10 @@ public class Message {
 	}
 	private Direction direction;
 
+	Message() {
+		this.hops = (int) Math.pow(2,Master.round); 
+	}
+	
 	Message(long messageSender, int hops) {
 		this.messageSender = messageSender;
 		this.hops = hops;
